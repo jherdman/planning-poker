@@ -2,6 +2,9 @@
 
 import { useId, useState } from "react";
 
+/**
+ * Gathers and submits an estimation to the server.
+ */
 export default function EstimationForm() {
     const estimationField = useId();
     const [isSubmitting, setIsSubmitting] = useState(false);
