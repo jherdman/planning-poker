@@ -9,7 +9,7 @@ export const estimationsTable = table("estimations", {
   createdAt: timestamp("created_at").notNull().default(sql`now()`),
   updatedAt: timestamp("updated_at").notNull().default(sql`now()`),
 }, (table) => [
-  check("estimation_positive", sql`${table}.estimation >= 0`),
+  check("estimation_positive", sql`${table.estimation} >= 0`),
 ]);
 
 export type Estimation = typeof estimationsTable.$inferSelect;
