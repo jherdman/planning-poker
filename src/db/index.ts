@@ -1,6 +1,5 @@
 import { drizzle } from 'drizzle-orm/bun-sql';
 import { SQL } from 'bun';
-import * as schema from "./schema";
 
 const DATABASE_URL = process.env.DATABASE_URL;
 
@@ -9,7 +8,7 @@ if (typeof DATABASE_URL !== "string") {
 }
 
 const client = new SQL(DATABASE_URL);
-const db = drizzle({ client, schema });
+const db = drizzle({ client });
 
 export default db;
 
