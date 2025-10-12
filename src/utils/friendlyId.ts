@@ -1,4 +1,5 @@
-const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-_0123456789";
+const ALPHABET =
+	"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-_0123456789";
 const ID_LENGTH = 10;
 
 /**
@@ -6,5 +7,8 @@ const ID_LENGTH = 10;
  * @returns A friendly ID.
  */
 export default function friendlyId(): string {
-  return Array.from({ length: ID_LENGTH }, () => ALPHABET[Math.floor(Math.random() * ALPHABET.length)]).join("");
+	return Array.from(
+		{ length: ID_LENGTH },
+		() => ALPHABET[Math.floor(Math.random() * ALPHABET.length)],
+	).join("");
 }
