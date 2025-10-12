@@ -4,7 +4,7 @@ CREATE TABLE "estimations" (
 	"estimation" integer NOT NULL,
 	"created_at" timestamp DEFAULT now() NOT NULL,
 	"updated_at" timestamp DEFAULT now() NOT NULL,
-	CONSTRAINT "estimation_positive" CHECK ($1.estimation >= 0)
+	CONSTRAINT "estimation_positive" CHECK ("estimations"."estimation" >= 0)
 );
 --> statement-breakpoint
 CREATE TABLE "parties" (

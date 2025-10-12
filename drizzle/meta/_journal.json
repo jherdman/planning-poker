@@ -1,20 +1,13 @@
 {
-  "version": "7",
-  "dialect": "postgresql",
-  "entries": [
-    {
-      "idx": 0,
-      "version": "7",
-      "when": 1760127479776,
-      "tag": "0000_peaceful_lady_mastermind",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1760128546311,
-      "tag": "0001_safe_radioactive_man",
-      "breakpoints": true
-    }
-  ]
+	"version": "7",
+	"dialect": "postgresql",
+	"entries": [
+		{
+			"idx": 0,
+			"version": "7",
+			"when": 1760294778261,
+			"tag": "0000_complex_lionheart",
+			"breakpoints": true
+		}
+	]
 }
