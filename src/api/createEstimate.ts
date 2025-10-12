@@ -6,7 +6,7 @@
  * @response { estimation: number }
  */
 export default async function createEstimateHandler(req: Request) {
-  const { estimation } = await req.json();
+	const { estimation } = await req.json();
 
-  return Response.json({ estimation });
+	return Response.json({ estimation });
 }
