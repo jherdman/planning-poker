@@ -45,9 +45,6 @@ jobs:
       - name: Lint code for style and type safety
         run: bun lint
 
-      - name: Lint Dockerfile
-        run: docker run --rm -i hadolint/hadolint < Dockerfile
-
   test:
     runs-on: ubuntu-latest
     steps:

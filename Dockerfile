@@ -8,12 +8,16 @@ WORKDIR /usr/src/app
 FROM base AS install
 RUN mkdir -p /temp/dev
 COPY package.json bun.lock /temp/dev/
-RUN cd /temp/dev && bun install --frozen-lockfile
+WORKDIR /temp/dev
+RUN bun install --frozen-lockfile
 
 # install with --production (exclude devDependencies)
+# hadolint ignore=DL3059
 RUN mkdir -p /temp/prod
 COPY package.json bun.lock /temp/prod/
-RUN cd /temp/prod && bun install --frozen-lockfile --production
+
+WORKDIR /temp/prod
+RUN bun install --frozen-lockfile --production
 
 # copy node_modules from temp directory
 # then copy all (non-ignored) project files into the image
@@ -23,8 +27,7 @@ COPY . .
 
 # [optional] tests & build
 ENV NODE_ENV=production
-RUN bun test
-RUN bun run build
+RUN bun test && bun run build
 
 # copy production dependencies and source code into final image
 FROM base AS release

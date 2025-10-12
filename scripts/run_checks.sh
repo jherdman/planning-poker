@@ -18,3 +18,6 @@ bunx biome ci
 
 log_info "Typechecking..."
 bunx tsc --noEmit
+
+log_info "Lint Dockerfile..."
+docker run --rm -i hadolint/hadolint < Dockerfile
