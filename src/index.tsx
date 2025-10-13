@@ -1,11 +1,35 @@
 import { serve } from "bun";
-
+import { createParty, getPartyBySlug } from "./db/schema/parties";
 import index from "./index.html";
 
 const server = serve({
 	routes: {
 		// Serve index.html for all unmatched routes.
 		"/*": index,
+
+		"/api/parties": {
+			async POST(_req) {
+				const party = await createParty();
+
+				if (!party) {
+					return Response.json({ error: "Party not created" }, { status: 500 });
+				}
+
+				return Response.json(party);
+			},
+		},
+
+		"/api/parties/:id": {
+			async GET({ params }) {
+				const party = await getPartyBySlug(params.id);
+
+				if (!party) {
+					return Response.json({ error: "Party not found" }, { status: 404 });
+				}
+
+				return Response.json(party);
+			},
+		},
 
 		"/api/estimations": {
 			async POST(req) {

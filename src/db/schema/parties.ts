@@ -1,4 +1,4 @@
-import { sql } from "drizzle-orm";
+import { eq, sql } from "drizzle-orm";
 import {
 	integer,
 	pgTable as table,
@@ -41,4 +41,18 @@ export async function createParty(): Promise<Party | undefined> {
 export async function destroyAllParties() {
 	console.log("destroying all parties");
 	return await db.delete(partiesTable);
+}
+
+/**
+ * Gets a party by slug.
+ * @param slug - The slug of the party.
+ * @returns The party, if found.
+ */
+export async function getPartyBySlug(slug: string): Promise<Party | undefined> {
+	const [maybeParty] = await db
+		.select()
+		.from(partiesTable)
+		.where(eq(partiesTable.slug, slug))
+		.limit(1);
+	return maybeParty;
 }
