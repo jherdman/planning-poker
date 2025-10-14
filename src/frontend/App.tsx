@@ -1,6 +1,6 @@
-import EstimationForm from "./EstimationForm";
-import "./index.css";
-import Alert from "./shared/components/Alert";
+import EstimationForm from "./components/EstimationForm";
+import "./css/index.css";
+import Alert from "../shared/components/Alert";
 
 export function App() {
 	return (

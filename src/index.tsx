@@ -1,11 +1,13 @@
 import { serve } from "bun";
 import { createParty, getPartyBySlug } from "./db/schema/parties";
-import index from "./index.html";
+import index from "./frontend/index.html";
+import newParty from "./frontend/parties/new.html";
 
 const server = serve({
 	routes: {
 		// Serve index.html for all unmatched routes.
-		"/*": index,
+		"/": index,
+		"/parties/new": newParty,
 
 		"/api/parties": {
 			async POST(_req) {
