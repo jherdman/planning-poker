@@ -48,6 +48,11 @@ jobs:
       - name: Lint code for style and type safety
         run: bun lint
 
+      - name: Lint Dockerfile
+        uses: hadolint/hadolint-action@v3.3.0
+        with:
+          dockerfile: Dockerfile
+
   test:
     runs-on: ubuntu-latest
     steps:
