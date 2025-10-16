@@ -1,15 +1,18 @@
-import EstimationForm from "./components/EstimationForm";
-import "./css/index.css";
-import Alert from "../shared/components/Alert";
+import { StrictMode } from "react";
+import { Route, Router, Switch } from "wouter";
+import Parties from "./parties";
+import NewParty from "./parties/new";
 
 export function App() {
 	return (
-		<div className="bg-slate-300 dark:bg-slate-800 h-screen w-screen">
-			<div className="flex flex-col items-center justify-center h-full">
-				<EstimationForm />
-			</div>
-			<Alert type="info" message="This is an info alert" />
-		</div>
+		<StrictMode>
+			<Router>
+				<Switch>
+					<Route path="/" component={Parties} />
+					<Route path="/parties/new" component={NewParty} />
+				</Switch>
+			</Router>
+		</StrictMode>
 	);
 }
 

@@ -1,14 +1,22 @@
 import { serve } from "bun";
+import { renderToReadableStream } from "react-dom/server";
 import { createParty, getPartyBySlug } from "./db/schema/parties";
-import index from "./frontend/index.html";
-import newParty from "./frontend/parties/new.html";
+import ServerApp from "./server";
+
+await Bun.build({
+	entrypoints: ["./src/hydrate.tsx"],
+	target: "browser",
+	outdir: "dist",
+	splitting: true,
+	minify: {
+		identifiers: true,
+		syntax: true,
+		whitespace: true,
+	},
+});
 
 const server = serve({
 	routes: {
-		// Serve index.html for all unmatched routes.
-		"/": index,
-		"/parties/new": newParty,
-
 		"/api/parties": {
 			async POST(_req) {
 				const party = await createParty();
@@ -62,6 +70,33 @@ const server = serve({
 			const name = req.params.name;
 			return Response.json({
 				message: `Hello, ${name}!`,
+			});
+		},
+
+		"/hydrate.js": new Response(Bun.file("./dist/hydrate.js"), {
+			headers: {
+				"Content-Type": "application/javascript",
+			},
+		}),
+
+		"/hydrate.css": new Response(Bun.file("./dist/hydrate.css"), {
+			headers: {
+				"Content-Type": "text/css",
+			},
+		}),
+
+		"/*": async (req) => {
+			const url = new URL(req.url);
+
+			const stream = await renderToReadableStream(
+				<ServerApp pathname={url.pathname} search={url.search} />,
+				{ bootstrapScripts: ["/hydrate.js"] },
+			);
+
+			return new Response(stream, {
+				headers: {
+					"Content-Type": "text/html",
+				},
 			});
 		},
 	},
