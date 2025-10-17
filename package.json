@@ -4,18 +4,20 @@
 	"private": true,
 	"type": "module",
 	"scripts": {
-		"dev": "bun --hot src/index.tsx",
-		"build": "bun build ./src/index.html --outdir=dist --sourcemap --target=browser --minify --define:process.env.NODE_ENV='\"production\"' --env='BUN_PUBLIC_*'",
-		"start": "NODE_ENV=production bun src/index.tsx",
+		"dev": "bun --hot src/index.ts",
+		"build": "bun build ./public/index.html --outdir=dist --sourcemap --target=browser --minify --define:process.env.NODE_ENV='\"production\"' --env='BUN_PUBLIC_*'",
+		"start": "NODE_ENV=production bun src/index.ts",
 		"lint": "./scripts/run_checks.sh",
 		"db:generate": "drizzle-kit generate",
 		"db:migrate": "drizzle-kit push"
 	},
 	"dependencies": {
+		"@elysiajs/static": "^1.4.4",
 		"bun-plugin-tailwind": "^0.1.2",
 		"daisyui": "^5.3.7",
 		"drizzle-orm": "^0.44.6",
 		"drizzle-zod": "^0.8.3",
+		"elysia": "^1.4.12",
 		"react": "^19.2.0",
 		"react-dom": "^19.2.0",
 		"tailwindcss": "^4.1.14"
