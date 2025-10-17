@@ -34,8 +34,9 @@ Example:
 }
 
 const toCamelCase = (str: string): string =>
-	str.replace(/-([a-z])/g, (g) => g[1].toUpperCase());
+	str.replace(/-([a-z])/g, (g) => g?.[1]?.toUpperCase() ?? "");
 
+// biome-ignore lint/suspicious/noExplicitAny: Actually legitimate any
 const parseValue = (value: string): any => {
 	if (value === "true") return true;
 	if (value === "false") return false;
@@ -59,6 +60,7 @@ function parseArgs(): Partial<Bun.BuildConfig> {
 
 		if (arg.startsWith("--no-")) {
 			const key = toCamelCase(arg.slice(5));
+			// @ts-expect-error
 			config[key] = false;
 			continue;
 		}
@@ -68,6 +70,7 @@ function parseArgs(): Partial<Bun.BuildConfig> {
 			(i === args.length - 1 || args[i + 1]?.startsWith("--"))
 		) {
 			const key = toCamelCase(arg.slice(2));
+			// @ts-expect-error
 			config[key] = true;
 			continue;
 		}
@@ -86,9 +89,13 @@ function parseArgs(): Partial<Bun.BuildConfig> {
 
 		if (key.includes(".")) {
 			const [parentKey, childKey] = key.split(".");
+			// @ts-expect-error
 			config[parentKey] = config[parentKey] || {};
+
+			// @ts-expect-error
 			config[parentKey][childKey] = parseValue(value);
 		} else {
+			// @ts-expect-error
 			config[key] = parseValue(value);
 		}
 	}

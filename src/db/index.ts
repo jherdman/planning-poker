@@ -2,7 +2,8 @@ import { sql } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/node-postgres";
 import { Pool } from "pg";
 
-const DATABASE_URL = process.env.DATABASE_URL;
+// biome-ignore lint/complexity/useLiteralKeys: Conflicts with Typescript
+const DATABASE_URL = process.env["DATABASE_URL"];
 
 if (typeof DATABASE_URL !== "string") {
 	throw new Error("DATABASE_URL is not set");
