@@ -5,15 +5,20 @@
  * It is included in `public/index.html`.
  */
 
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { App } from "@/frontend/main";
+
+const queryClient = new QueryClient();
 
 // biome-ignore lint/style/noNonNullAssertion: We are be guaranteed that the root element exists
 const elem = document.getElementById("root")!;
 const app = (
 	<StrictMode>
-		<App />
+		<QueryClientProvider client={queryClient}>
+			<App />
+		</QueryClientProvider>
 	</StrictMode>
 );
 
