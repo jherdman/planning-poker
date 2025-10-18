@@ -18,10 +18,12 @@ export default function ShowPartyPage() {
 }
 
 function ShowParty({ partySlug }: { partySlug: string }) {
-	const { data: party } = useSuspenseQuery<Party>({
+	const { data } = useSuspenseQuery<{ party: Party }>({
 		queryKey: ["parties", partySlug],
 		queryFn: () => fetch(`/api/parties/${partySlug}`).then((res) => res.json()),
 	});
+
+	const { party } = data;
 
 	return (
 		<div>

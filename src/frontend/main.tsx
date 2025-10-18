@@ -7,6 +7,16 @@ import ShowPartyPage from "./pages/parties/show";
 
 const queryClient = new QueryClient();
 
+declare global {
+	interface Window {
+		__TANSTACK_QUERY_CLIENT__: import("@tanstack/query-core").QueryClient;
+	}
+}
+
+if (process.env.NODE_ENV !== "production") {
+	window.__TANSTACK_QUERY_CLIENT__ = queryClient;
+}
+
 /**
  * General app chrome. Keep this minimal.
  */

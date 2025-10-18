@@ -10,8 +10,8 @@ export default function NewPartyPage() {
 			fetch("/api/parties", {
 				method: "POST",
 			}).then((res) => res.json()),
-		onSuccess: (data: Party) => {
-			navigate(`/parties/${data.slug}`);
+		onSuccess: (data: { party: Party }) => {
+			navigate(`/parties/${data.party.slug}`);
 		},
 	});
 
