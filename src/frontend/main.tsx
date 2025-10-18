@@ -2,6 +2,7 @@ import { Route, Switch } from "wouter";
 import "./css/index.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { StrictMode } from "react";
+import PartiesPage from "./pages/parties";
 import NewPartyPage from "./pages/parties/new";
 import ShowPartyPage from "./pages/parties/show";
 
@@ -27,6 +28,7 @@ export function App() {
 				<div className="bg-slate-300 dark:bg-slate-800 h-screen w-screen">
 					<div className="flex flex-col items-center justify-center h-full">
 						<Switch>
+							<Route path="/parties" component={PartiesPage} />
 							<Route path="/parties/new" component={NewPartyPage} />
 							<Route path="/parties/:partySlug" component={ShowPartyPage} />
 						</Switch>
