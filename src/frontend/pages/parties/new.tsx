@@ -1,5 +1,4 @@
 import { useMutation } from "@tanstack/react-query";
-import type { FormEvent } from "react";
 import { useLocation } from "wouter";
 import type { Party } from "@/db/schema/parties";
 
@@ -7,13 +6,16 @@ export default function NewPartyPage() {
 	const [, navigate] = useLocation();
 
 	const { mutate: createNewParty, isPending } = useMutation({
-		mutationFn: (event: FormEvent<HTMLFormElement>) => {
-			event.preventDefault();
-			event.stopPropagation();
-
-			return fetch("/api/parties", {
+		mutationFn: async (_formData: FormData) => {
+			const response = await fetch("/api/parties", {
 				method: "POST",
-			}).then((res) => res.json());
+			});
+
+			if (!response.ok) {
+				throw new Error("Failed to create party");
+			}
+
+			return response.json();
 		},
 		onSuccess: (data: { party: Party }) => {
 			navigate(`/parties/${data.party.slug}`);
@@ -21,7 +23,7 @@ export default function NewPartyPage() {
 	});
 
 	return (
-		<form onSubmit={createNewParty}>
+		<form action={createNewParty}>
 			<button type="submit" disabled={isPending} className="btn btn-primary">
 				<span>Start a new Party</span>
 				{isPending && (
