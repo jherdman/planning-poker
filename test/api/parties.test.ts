@@ -46,5 +46,18 @@ describe.concurrent("parties", () => {
 				},
 			});
 		});
+
+		it("should respond with 404 if the party is not found", async () => {
+			const request = new Request("http://localhost/parties/invalid", {
+				method: "GET",
+			});
+			const response = await parties.handle(request);
+			expect(response.status).toBe(404);
+
+			const body = await response.json();
+			expect(body).toMatchObject({
+				error: "Party not found",
+			});
+		});
 	});
 });

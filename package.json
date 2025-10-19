@@ -12,15 +12,17 @@
 		"db:migrate": "drizzle-kit push"
 	},
 	"dependencies": {
+		"@elysiajs/server-timing": "^1.4.0",
 		"@elysiajs/static": "^1.4.4",
+		"@tanstack/react-query": "^5.90.5",
 		"bun-plugin-tailwind": "^0.1.2",
 		"daisyui": "^5.3.7",
 		"drizzle-orm": "^0.44.6",
-		"drizzle-zod": "^0.8.3",
 		"elysia": "^1.4.12",
 		"react": "^19.2.0",
 		"react-dom": "^19.2.0",
-		"tailwindcss": "^4.1.14"
+		"tailwindcss": "^4.1.14",
+		"wouter": "^3.7.1"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "2.2.6",

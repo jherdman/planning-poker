@@ -5,25 +5,17 @@
  * It is included in `public/index.html`.
  */
 
-import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import { App } from "../src/App";
+import { App } from "@/frontend/main";
 
-// biome-ignore lint/style/noNonNullAssertion: We are be guaranteed that the root element exists
-const elem = document.getElementById("root")!;
-const app = (
-	<StrictMode>
-		<App />
-	</StrictMode>
-);
+function start() {
+	// biome-ignore lint/style/noNonNullAssertion: Canonical handling for finding the root element
+	const root = createRoot(document.getElementById("root")!);
+	root.render(<App />);
+}
 
-if (import.meta.hot) {
-	// With hot module reloading, `import.meta.hot.data` is persisted.
-
-	// biome-ignore lint/suspicious/noAssignInExpressions: Canonical handling for Bun's hot module reloading
-	const root = (import.meta.hot.data.root ??= createRoot(elem));
-	root.render(app);
+if (document.readyState === "loading") {
+	document.addEventListener("DOMContentLoaded", start);
 } else {
-	// The hot module reloading API is not available in production.
-	createRoot(elem).render(app);
+	start();
 }
