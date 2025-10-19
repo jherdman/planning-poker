@@ -1,11 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
+import { useEffect, useId, useState } from "react";
 import { Link, useLocation } from "wouter";
 import type { Party } from "@/db/schema/parties";
 
 export default function PartiesPage() {
 	const [, navigate] = useLocation();
 	const [partySlug, setPartySlug] = useState<string | null>(null);
+	const partyCodeId = useId();
 
 	const selectParty = (formData: FormData) => {
 		const selectedPartySlug = formData.get("partySlug") as string;
@@ -25,29 +26,45 @@ export default function PartiesPage() {
 	}, [data, navigate]);
 
 	return (
-		<form action={selectParty}>
-			<fieldset className="fieldset">
-				<legend className="fieldset-legend">Join a party</legend>
-				<input
-					type="text"
-					className="input"
-					placeholder="Party slug"
-					name="partySlug"
-					required
-					disabled={isFetching}
-				/>
-				<button type="submit" disabled={isFetching} className="btn btn-primary">
-					<span>Join</span>
-					{isFetching && (
-						<span className="loading loading-spinner loading-xs"></span>
-					)}
-				</button>
-			</fieldset>
+		<article>
+			<h1>Join a party</h1>
+
+			<form action={selectParty}>
+				<fieldset className="fieldset">
+					<div className="join">
+						<label htmlFor={partyCodeId} className="sr-only">
+							Party code
+						</label>
+						<input
+							id={partyCodeId}
+							type="text"
+							className="input join-item"
+							placeholder="Party code"
+							name="partySlug"
+							required
+							disabled={isFetching}
+						/>
+						<button
+							type="submit"
+							disabled={isFetching}
+							className="btn btn-primary join-item"
+						>
+							<span>Join</span>
+							{isFetching && (
+								<span className="loading loading-spinner loading-xs"></span>
+							)}
+						</button>
+					</div>
+				</fieldset>
+			</form>
 
 			<p>
-				or <Link href="/parties/new">start a new party</Link>
+				or{" "}
+				<Link href="/parties/new" className="link link-primary">
+					start a new party
+				</Link>
 			</p>
-		</form>
+		</article>
 	);
 }
 
