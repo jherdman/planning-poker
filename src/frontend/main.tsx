@@ -5,6 +5,7 @@ import { StrictMode } from "react";
 import PartiesPage from "./pages/parties";
 import NewPartyPage from "./pages/parties/new";
 import ShowPartyPage from "./pages/parties/show";
+import { CurrentContextProvider } from "./support/CurrentContext";
 
 const queryClient = new QueryClient();
 
@@ -25,15 +26,17 @@ export function App() {
 	return (
 		<StrictMode>
 			<QueryClientProvider client={queryClient}>
-				<div className="bg-slate-300 dark:bg-slate-800 h-screen w-screen">
-					<div className="flex flex-col items-center justify-center h-full">
-						<Switch>
-							<Route path="/parties" component={PartiesPage} />
-							<Route path="/parties/new" component={NewPartyPage} />
-							<Route path="/parties/:partySlug" component={ShowPartyPage} />
-						</Switch>
+				<CurrentContextProvider>
+					<div className="bg-slate-300 dark:bg-slate-800 h-screen w-screen">
+						<div className="flex flex-col items-center justify-center h-full">
+							<Switch>
+								<Route path="/parties" component={PartiesPage} />
+								<Route path="/parties/new" component={NewPartyPage} />
+								<Route path="/parties/:partySlug" component={ShowPartyPage} />
+							</Switch>
+						</div>
 					</div>
-				</div>
+				</CurrentContextProvider>
 			</QueryClientProvider>
 		</StrictMode>
 	);
