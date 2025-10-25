@@ -56,11 +56,13 @@ export async function findUserByToken(token: User["token"]) {
 /**
  * Touches the last seen at timestamp for a user.
  */
-export async function touchLastSeenAt(token: User["token"]) {
+export async function touchLastSeenAt(user: User) {
+	user.lastSeenAt = new Date();
+
 	await db
 		.update(usersTable)
-		.set({ lastSeenAt: sql`now()` })
-		.where(eq(usersTable.token, token));
+		.set({ lastSeenAt: user.lastSeenAt })
+		.where(eq(usersTable.id, user.id));
 }
 
 /**

@@ -1,5 +1,10 @@
 import { describe, expect, it } from "bun:test";
-import { createUser, findUserByToken } from "@/db/schema/users";
+import assertNotUndefined from "test/support/assertions";
+import {
+	createUser,
+	findUserByToken,
+	touchLastSeenAt,
+} from "@/db/schema/users";
 
 describe("createUser", () => {
 	it("should create a user", async () => {
@@ -30,5 +35,25 @@ describe("findUserByToken", () => {
 
 		expect(foundUser).toBeDefined();
 		expect(foundUser?.name).toBe("John Doe");
+	});
+});
+
+describe("touchLastSeenAt", () => {
+	it("should touch the last seen at timestamp for a user", async () => {
+		const user = await createUser({ name: "John Doe" });
+
+		assertNotUndefined(user);
+		const originalLastSeenAt = user.lastSeenAt;
+
+		await touchLastSeenAt(user);
+
+		expect(user.lastSeenAt.getTime()).toBeGreaterThan(
+			originalLastSeenAt.getTime(),
+		);
+
+		const updatedUser = await findUserByToken(user.token);
+		assertNotUndefined(updatedUser);
+
+		expect(updatedUser.lastSeenAt.getTime()).toEqual(user.lastSeenAt.getTime());
 	});
 });
