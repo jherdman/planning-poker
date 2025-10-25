@@ -6,16 +6,16 @@ import {
 	timestamp,
 } from "drizzle-orm/pg-core";
 import { db } from "@/db";
-import { partiesTable } from "./parties";
+import { ticketsTable } from "./tickets";
 import { usersTable } from "./users";
 
 export const estimationsTable = table(
 	"estimations",
 	{
 		id: integer().primaryKey().generatedAlwaysAsIdentity(),
-		partyId: integer("party_id")
+		ticketId: integer("ticket_id")
 			.notNull()
-			.references(() => partiesTable.id),
+			.references(() => ticketsTable.id),
 		userId: integer("user_id")
 			.notNull()
 			.references(() => usersTable.id),
@@ -30,16 +30,16 @@ export type Estimation = typeof estimationsTable.$inferSelect;
 
 export async function createEstimation({
 	estimation,
-	partyId,
+	ticketId,
 	userId,
 }: {
 	estimation: Estimation["estimation"];
-	partyId: Estimation["partyId"];
+	ticketId: Estimation["ticketId"];
 	userId: Estimation["userId"];
 }) {
 	const [record] = await db
 		.insert(estimationsTable)
-		.values({ estimation, partyId, userId })
+		.values({ estimation, ticketId, userId })
 		.returning();
 	return record;
 }

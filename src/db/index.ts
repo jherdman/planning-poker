@@ -10,7 +10,7 @@ if (typeof DATABASE_URL !== "string") {
 }
 
 const client = new Pool({ connectionString: DATABASE_URL });
-const db = drizzle({ client });
+const db = drizzle({ client, casing: "snake_case" });
 
 // @private
 async function testConnection() {
