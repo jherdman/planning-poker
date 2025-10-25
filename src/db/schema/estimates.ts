@@ -43,7 +43,3 @@ export async function createEstimation({
 		.returning();
 	return record;
 }
-
-export async function destroyAllEstimations() {
-	await db.delete(estimationsTable);
-}
