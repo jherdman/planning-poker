@@ -1,9 +1,6 @@
 #!/usr/bin/env sh
 
-# Test Database Setup and Teardown Script
-# This script prepares a test database, runs tests, and cleans up
-
-set -e  # Exit on any error
+set -e
 
 GREEN='\033[0;32m'
 NC='\033[0m' # No Color
