@@ -36,14 +36,6 @@ export async function createParty(): Promise<Party | undefined> {
 }
 
 /**
- * Destroys all parties, ya party pooper.
- */
-export async function destroyAllParties() {
-	console.log("destroying all parties");
-	return await db.delete(partiesTable);
-}
-
-/**
  * Gets a party by slug.
  * @param slug - The slug of the party.
  * @returns The party, if found.

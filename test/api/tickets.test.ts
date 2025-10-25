@@ -1,13 +1,13 @@
 import { describe, expect, it } from "bun:test";
 import assertNotUndefined from "test/support/assertions";
-import estimations from "@/api/estimations";
+import tickets from "@/api/tickets";
 import { createParty } from "@/db/schema/parties";
 import { createTicket } from "@/db/schema/tickets";
 import { createUser } from "@/db/schema/users";
 
-describe("estimations", () => {
+describe("tickets", () => {
 	describe("POST /", () => {
-		it("should create an estimation", async () => {
+		it("should create a ticket", async () => {
 			const party = await createParty();
 			assertNotUndefined(party);
 
@@ -17,27 +17,26 @@ describe("estimations", () => {
 			const user = await createUser({ name: "user" });
 			assertNotUndefined(user);
 
-			const request = new Request("http://localhost/estimations", {
+			const request = new Request("http://localhost/tickets", {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
 					Cookie: `token=${user.token}`,
 				},
-				body: JSON.stringify({ estimation: 100, ticketId: ticket.id }),
+				body: JSON.stringify({ ticket: { name: "ticket", partyId: party.id } }),
 			});
 
-			const response = await estimations.handle(request);
+			const response = await tickets.handle(request);
 			const body = await response.json();
 
-			expect(response.status).toBe(200);
+			expect(response.status).toBe(201);
 			expect(body).toMatchObject({
-				estimation: {
+				ticket: {
 					id: expect.any(Number),
-					estimation: 100,
-					ticketId: ticket.id,
+					name: "ticket",
+					partyId: party.id,
 					createdAt: expect.any(String),
 					updatedAt: expect.any(String),
-					userId: user.id,
 				},
 			});
 		});

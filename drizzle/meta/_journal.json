@@ -22,6 +22,20 @@
 			"when": 1761267251586,
 			"tag": "0002_slow_silhouette",
 			"breakpoints": true
+		},
+		{
+			"idx": 3,
+			"version": "7",
+			"when": 1761355012420,
+			"tag": "0003_shiny_crusher_hogan",
+			"breakpoints": true
+		},
+		{
+			"idx": 4,
+			"version": "7",
+			"when": 1761355094373,
+			"tag": "0004_safe_sugar_man",
+			"breakpoints": true
 		}
 	]
 }

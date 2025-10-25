@@ -9,7 +9,7 @@ const estimations = new Elysia({ prefix: "/estimations" })
 		async ({ body, user }) => {
 			const estimation = await createEstimation({
 				estimation: body.estimation,
-				partyId: body.partyId,
+				ticketId: body.ticketId,
 				userId: user.id,
 			});
 
@@ -23,7 +23,7 @@ const estimations = new Elysia({ prefix: "/estimations" })
 			requireAuth: true,
 			body: t.Object({
 				estimation: t.Number(),
-				partyId: t.Number(),
+				ticketId: t.Number(),
 			}),
 		},
 	);

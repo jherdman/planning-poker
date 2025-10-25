@@ -1,61 +1,51 @@
 import { beforeEach, describe, expect, it } from "bun:test";
-import { createEstimation, type Estimation } from "@/db/schema/estimates";
-import { createParty, type Party } from "@/db/schema/parties";
+import assertNotUndefined from "test/support/assertions";
+import { createEstimation } from "@/db/schema/estimates";
+import { createParty } from "@/db/schema/parties";
+import { createTicket, type Ticket } from "@/db/schema/tickets";
 import { createUser, type User } from "@/db/schema/users";
 
-function assertParty(party: Party | undefined): asserts party is Party {
-	if (!party) {
-		throw new Error("Party not created");
-	}
-}
-
-function assertEstimation(
-	estimation: Estimation | undefined,
-): asserts estimation is Estimation {
-	if (!estimation) {
-		throw new Error("Estimation not created");
-	}
-}
-
-function assertUser(user: User | undefined): asserts user is User {
-	if (!user) {
-		throw new Error("User not created");
-	}
-}
-
 describe("createEstimation", () => {
-	let party: Party | undefined;
+	let ticket: Ticket | undefined;
 	let user: User | undefined;
 
 	beforeEach(async () => {
-		party = await createParty();
+		const party = await createParty();
+		assertNotUndefined(party);
+
+		ticket = await createTicket({
+			name: "Ticket 1",
+			description: null,
+			partyId: party.id,
+		});
 		user = await createUser({ name: "user1" });
 	});
 
 	it("should create an estimation", async () => {
-		assertParty(party);
-		assertUser(user);
+		assertNotUndefined(user);
+		assertNotUndefined(ticket);
 
 		const estimation = await createEstimation({
 			estimation: 100,
-			partyId: party.id,
+			ticketId: ticket.id,
 			userId: user.id,
 		});
 
-		assertEstimation(estimation);
+		assertNotUndefined(estimation);
 
 		expect(estimation.estimation).toBe(100);
-		expect(estimation.partyId).toBe(party.id);
+		expect(estimation.ticketId).toBe(ticket.id);
+		expect(estimation.userId).toBe(user.id);
 	});
 
 	it("should disallow a negative estimation", () => {
 		expect(async () => {
-			assertParty(party);
-			assertUser(user);
+			assertNotUndefined(user);
+			assertNotUndefined(ticket);
 
 			await createEstimation({
 				estimation: -100,
-				partyId: party.id,
+				ticketId: ticket.id,
 				userId: user.id,
 			});
 		}).toThrow();
